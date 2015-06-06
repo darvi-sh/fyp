@@ -1,0 +1,1 @@
+<div class="alert alert-danger" role="alert">	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>	<span class="sr-only">Error:</span>	404. Oh snap! we've lost the way.. maybe try another link?</div>
