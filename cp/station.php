@@ -1,77 +1,142 @@
 <?php
-$query = $conn->query("SELECT `stations`.*, `locations`.`name` AS `loc_name`
-								FROM `stations`
-									INNER JOIN `locations`
-										ON `stations`.`location_id` = `locations`.`id`
-								WHERE `mac` = '" . $_GET['mac'] . "';");
+if (!empty($_GET['remove'])) {
+	$sth = $conn->prepare("DELETE FROM table WHERE id = ?");
+	$sth->execute(array($_GET['remove']));
+	header('location: ./?p=stations');die();
+}
+if (!empty($_POST)) {
+	foreach ($_POST as $key => $value) {
+		$$key = htmlentities(trim($value));
+	}
+	try {
+		$sth = $conn->prepare("UPDATE `stations` SET
+								`mac` = ?,
+								`location_id` = ?,
+								`latlong` = ?,
+								`temperature` = ?,
+								`humidity` = ?,
+								`soilMoist` = ?,
+								`phMeter` = ?,
+								`wetLeaf` = ?,
+								`windSpeed` = ?,
+								`windDir` = ?,
+								`rainMeter` = ?,
+								`solarRad` = ?
+								WHERE `id` = ?
+								LIMIT 1;");
+		$data = array(
+					$mac_addr, $loc_id, $latlong,
+					((isset($temperature)	&&	$temperature == 'on')	? 1 : NULL),
+					((isset($humidity)		&&	$humidity == 'on')		? 1 : NULL),
+					((isset($soilMoist)		&&	$soilMoist == 'on')		? 1 : NULL),
+					((isset($phMeter)		&&	$phMeter == 'on')		? 1 : NULL),
+					((isset($wetLeaf)		&&	$wetLeaf == 'on')		? 1 : NULL),
+					((isset($windSpeed)		&&	$windSpeed == 'on')		? 1 : NULL),
+					((isset($windDir)		&&	$windDir == 'on')		? 1 : NULL),
+					((isset($rainMeter)		&&	$rainMeter == 'on')		? 1 : NULL),
+					((isset($solarRad)		&&	$solarRad == 'on')		? 1 : NULL),
+					htmlentities(trim($_GET['id']))
+				);
+		$sth->execute($data);
+		echo '
+		<div class="alert alert-success" role="alert">
+			<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+			<strong>Success!</strong> The station has been updated.
+		</div>';
+		$justInserted = $conn->lastInsertId();
+	} catch(PDOException $ex) {
+		echo '
+		<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<strong>Error!</strong> There was something wrong with updating the station.' .
+			$ex->getMessage() . '
+		</div>';
+	}
+}
+
+
+$query = $conn->query("SELECT *
+						FROM `stations`
+						WHERE `id` = '" . $_GET['id'] . "';");
 
 $row = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<form action="">
+<form action="./?p=station" method="post" autocomplete="off">
 	<div class="row">
 		<div class="col-md-6">
 			<div class="form-group">
 				<label for="mac_addr">MAC Address <small>(16 characters)</small></label>
-				<input type="text" class="form-control" name="mac_addr" placeholder="MAC Address" value="<?php echo $row[0]['mac'] ?>" />
+				<input type="text" class="form-control" name="mac_addr" placeholder="MAC Address" minlength="16" maxlength="16" title="16 Characters" value="<?php echo $row[0]['mac'] ?>" required />
 			</div>
 			<div class="form-group">
 				<label for="loc_name">Location Name</label>
-				<input type="text" class="form-control" name="loc_name" placeholder="Location Name" value="<?php echo $row[0]['loc_name'] ?>" />
+				<select class="form-control" name="loc_id">
+				<?php
+				$loc_names = $conn->query("SELECT * FROM `locations`;");
+
+				$loc_names = $loc_names->fetchAll(PDO::FETCH_ASSOC);
+
+				foreach ($loc_names as $value) {
+					echo '<option value="' . $value['id'] . '"' . ($row[0]['location_id']==$value['id']?' selected':'') . '>' . $value['name'] . '</option>';
+				}
+				?>
+					
+				</select>
 			</div>
 			<div class="form-group">
-				<label for="latlong">Latitude, Longitude <small>(comma separated)</small></label>
-				<input type="text" class="form-control" name="latlong" placeholder="Latitude, Longitude" value="<?php echo $row[0]['latlong'] ?>" />
+				<label for="latlong">Latitude, Longitude <small>(comma separated, no spaces)</small></label>
+				<input type="text" class="form-control" name="latlong" placeholder="Latitude, Longitude" minlength="3" maxlength="36" pattern="-?\d{1,3}\.\d+[,]-?\d{1,3}\.\d+" title="Comma separated, No spaces" value="<?php echo $row[0]['latlong'] ?>" required />
 			</div>
 		</div>
 		<div class="col-md-6">
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" <?php echo $row[0]['temperature']?'checked':'' ?> /> Temperature
+					<input type="checkbox" name="temperature" <?php echo $row[0]['temperature']?'checked':'' ?> /> Temperature
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" <?php echo $row[0]['humidity']?'checked':'' ?> /> Humidity
+					<input type="checkbox" name="humidity" <?php echo $row[0]['humidity']?'checked':'' ?> /> Humidity
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" <?php echo $row[0]['soilMoist']?'checked':'' ?> /> Soil Moisture
+					<input type="checkbox" name="soilMoist" <?php echo $row[0]['soilMoist']?'checked':'' ?> /> Soil Moisture
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" <?php echo $row[0]['phMeter']?'checked':'' ?> /> pH Meter
+					<input type="checkbox" name="phMeter" <?php echo $row[0]['phMeter']?'checked':'' ?> /> pH Meter
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" <?php echo $row[0]['wetLeaf']?'checked':'' ?> /> Wet Leaf
+					<input type="checkbox" name="wetLeaf" <?php echo $row[0]['wetLeaf']?'checked':'' ?> /> Wet Leaf
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" <?php echo $row[0]['windSpeed']?'checked':'' ?> /> Wind Speed
+					<input type="checkbox" name="windSpeed" <?php echo $row[0]['windSpeed']?'checked':'' ?> /> Wind Speed
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" <?php echo $row[0]['windDir']?'checked':'' ?> /> Wind Direction
+					<input type="checkbox" name="windDir" <?php echo $row[0]['windDir']?'checked':'' ?> /> Wind Direction
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" <?php echo $row[0]['rainMeter']?'checked':'' ?> /> Rain Meter
+					<input type="checkbox" name="rainMeter" <?php echo $row[0]['rainMeter']?'checked':'' ?> /> Rain Meter
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" <?php echo $row[0]['solarRad']?'checked':'' ?> /> Solar Radiation
+					<input type="checkbox" name="solarRad" <?php echo $row[0]['solarRad']?'checked':'' ?> /> Solar Radiation
 				</label>
 			</div>
 			<button type="submit" class="btn btn-primary pull-left">Update</button>
-			<button type="submit" class="btn btn-default btn-xs pull-right">Remove this station</button>
+			<a href="./?p=station&remove=<?php echo htmlentities(trim($_GET['id'])) ?>"><span type="submit" class="label label-default pull-right">Remove this station</span></a>
 		</div>
 	</div>
 </form>
@@ -103,7 +168,7 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 	</thead>
 	<tfoot>
 		<tr>
-			<th colspan="5" class="ts-pager form-horizontal">
+			<th colspan="10" class="ts-pager form-horizontal">
 				<button type="button" class="btn first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i></button>
 				<button type="button" class="btn prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i></button>
 				<span class="pagedisplay"></span> <!-- this can be any element, including an input -->
