@@ -20,7 +20,6 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sonny Darvishzadeh <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="../"><span class="glyphicon glyphicon-arrow-left"></span> Return to main website</a></li>
-						<li><a href="?p=user"><span class="glyphicon glyphicon-user"></span> View Profile</a></li>
 						<li><a href="?p=user&a=edit"><span class="glyphicon glyphicon-pencil"></span> Edit Profile</a></li>
 						<li><a href="?p=logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
 					</ul>

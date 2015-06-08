@@ -1,8 +1,8 @@
 <?php
 if (!empty($_GET['remove'])) {
-	$sth = $conn->prepare("DELETE FROM table WHERE id = ?");
+	$sth = $conn->prepare("DELETE FROM `stations` WHERE `id` = ?");
 	$sth->execute(array($_GET['remove']));
-	header('location: ./?p=stations');die();
+	header('location: ./?p=stations&removed');die();
 }
 if (!empty($_POST)) {
 	foreach ($_POST as $key => $value) {
@@ -60,9 +60,12 @@ $query = $conn->query("SELECT *
 						WHERE `id` = '" . $_GET['id'] . "';");
 
 $row = $query->fetchAll(PDO::FETCH_ASSOC);
+
+if ($row) {
+
 ?>
 
-<form action="./?p=station" method="post" autocomplete="off">
+<form action="./?<?php echo $_SERVER['QUERY_STRING'] ?>" method="post" autocomplete="off">
 	<div class="row">
 		<div class="col-md-6">
 			<div class="form-group">
@@ -70,10 +73,10 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 				<input type="text" class="form-control" name="mac_addr" placeholder="MAC Address" minlength="16" maxlength="16" title="16 Characters" value="<?php echo $row[0]['mac'] ?>" required />
 			</div>
 			<div class="form-group">
-				<label for="loc_name">Location Name</label>
+				<label for="loc_id">Location Name</label>
 				<select class="form-control" name="loc_id">
 				<?php
-				$loc_names = $conn->query("SELECT * FROM `locations`;");
+				$loc_names = $conn->query("SELECT * FROM `locations` ORDER BY `name`;");
 
 				$loc_names = $loc_names->fetchAll(PDO::FETCH_ASSOC);
 
@@ -136,7 +139,7 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 				</label>
 			</div>
 			<button type="submit" class="btn btn-primary pull-left">Update</button>
-			<a href="./?p=station&remove=<?php echo htmlentities(trim($_GET['id'])) ?>"><span type="submit" class="label label-default pull-right">Remove this station</span></a>
+			<a id="removeStation" href="./?p=station&remove=<?php echo htmlentities(trim($_GET['id'])) ?>"><span class="label label-default pull-right">Remove this station</span></a>
 		</div>
 	</div>
 </form>
@@ -204,3 +207,8 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 		?>
 	</tbody>
 </table>
+<?php
+} else {
+	require_once('404.php');
+}
+?>

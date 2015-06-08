@@ -59,10 +59,11 @@ try {
 	</div>
 
 	<script src="../js/jquery-1.11.3.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/jquery.tablesorter.combined.js"></script>
 	<script src="../js/widgets/widget-pager.js"></script>
 	<script src="../js/widgets/jquery.tablesorter.pager.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/bootbox.min.js"></script>
 	<script src="../js/js.js"></script>
 </body>
 </html>

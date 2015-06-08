@@ -1,5 +1,12 @@
 <?php
 $justInserted = 0;
+if (isset($_GET['removed'])) {
+	echo '
+	<div class="alert alert-success" role="alert">
+		<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+		<strong>Success!</strong> The station has been removed.
+	</div>';
+}
 if (!empty($_POST)) {
 	foreach ($_POST as $key => $value) {
 		$$key = htmlentities(trim($value));
@@ -54,10 +61,10 @@ if (!empty($_POST)) {
 				<input type="text" class="form-control" name="mac_addr" placeholder="MAC Address" minlength="16" maxlength="16" title="16 Characters" required />
 			</div>
 			<div class="form-group">
-				<label for="loc_name">Location Name</label>
+				<label for="loc_id">Location Name</label>
 				<select class="form-control" name="loc_id">
 				<?php
-				$loc_names = $conn->query("SELECT * FROM `locations`;");
+				$loc_names = $conn->query("SELECT * FROM `locations` ORDER BY `name`;");
 
 				$loc_names = $loc_names->fetchAll(PDO::FETCH_ASSOC);
 
@@ -125,8 +132,9 @@ if (!empty($_POST)) {
 </form>
 
 <br />
-<hr />
 <br />
+<h2>List of Stations</h2>
+<hr />
 
 <?php
 $query = $conn->query("SELECT

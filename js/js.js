@@ -65,5 +65,17 @@ $(document).ready(function(){
 		});
 		$('#stationsTable').trigger('sorton', [ [[4,1]] ]);
 		$('#stationData').trigger('sorton', [ [[0,1]] ]);
+		$('#usersTable').trigger('sorton', [ [[3,1]] ]);
+	});
+
+	$("form").on('click', '#removeStation', function(e) {
+		e.preventDefault();
+		var href = $(this).attr('href');
+
+		bootbox.confirm("Are you sure?", function(result) {
+			if (result) {
+				location = href;
+			}
+		});
 	});
 });
