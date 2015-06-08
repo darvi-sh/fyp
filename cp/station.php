@@ -23,7 +23,6 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 				<label for="latlong">Latitude, Longitude <small>(comma separated)</small></label>
 				<input type="text" class="form-control" name="latlong" placeholder="Latitude, Longitude" value="<?php echo $row[0]['latlong'] ?>" />
 			</div>
-			<button type="submit" class="btn btn-primary">Update</button>
 		</div>
 		<div class="col-md-6">
 			<div class="checkbox">
@@ -71,10 +70,14 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 					<input type="checkbox" <?php echo $row[0]['solarRad']?'checked':'' ?> /> Solar Radiation
 				</label>
 			</div>
+			<button type="submit" class="btn btn-primary pull-left">Update</button>
+			<button type="submit" class="btn btn-default btn-xs pull-right">Remove this station</button>
 		</div>
 	</div>
 </form>
 
+<br />
+<hr />
 <br />
 
 <?php
@@ -98,6 +101,23 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 			<th>Solar Radiation</th>
 		</tr>
 	</thead>
+	<tfoot>
+		<tr>
+			<th colspan="5" class="ts-pager form-horizontal">
+				<button type="button" class="btn first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i></button>
+				<button type="button" class="btn prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i></button>
+				<span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+				<button type="button" class="btn next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i></button>
+				<button type="button" class="btn last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i></button>
+				<select class="pagesize input-mini" title="Select page size">
+				  <option selected="selected" value="10">10</option>
+				  <option value="25">25</option>
+				  <option value="50">50</option>
+				</select>
+				<select class="pagenum input-mini" title="Select page number"></select>
+			</th>
+		</tr>
+	</tfoot>
 	<tbody>
 		<?php
 		foreach ($row as $value) {
