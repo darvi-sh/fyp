@@ -1,5 +1,10 @@
 <?php
-$validUser = true;
+session_start();
+session_regenerate_id();
+
+if (!isset($_SESSION['user'])) {
+	header('location: ../?p=auth'); die();
+}
 
 if (isset($_GET['p'])) {
 	$p = $_GET['p'] . '.php';
@@ -30,7 +35,7 @@ try {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>AGROMET Control Panel</title>
-	<link href="../css/bootstrap.united.min.css" rel="stylesheet" />
+	<link href="../css/bootstrap.paper.min.css" rel="stylesheet" />
 	<link href="../css/jquery.tablesorter.pager.css" rel="stylesheet" />
 	<link href="../css/extras.css" rel="stylesheet" />
 </head>
@@ -58,7 +63,7 @@ try {
 		</div>
 	</div>
 
-	<script src="../js/jquery-1.11.3.min.js"></script>
+	<script src="../js/jquery-2.1.4.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/jquery.tablesorter.combined.js"></script>
 	<script src="../js/widgets/widget-pager.js"></script>

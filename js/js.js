@@ -68,11 +68,12 @@ $(document).ready(function(){
 		$('#usersTable').trigger('sorton', [ [[3,1]] ]);
 	});
 
-	$("form").on('click', '#removeStation', function(e) {
+	$("form").on('click', '#remover', function(e) {
 		e.preventDefault();
 		var href = $(this).attr('href');
+		var warn = '<br /><br />' + $(this).data('warn');
 
-		bootbox.confirm("Are you sure?", function(result) {
+		bootbox.confirm("<strong>Are you sure?</strong>" + warn, function(result) {
 			if (result) {
 				location = href;
 			}

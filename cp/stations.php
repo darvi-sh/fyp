@@ -53,83 +53,85 @@ if (!empty($_POST)) {
 }
 ?>
 
-<form action="./?p=stations" method="post" autocomplete="off">
-	<div class="row">
-		<div class="col-md-6">
-			<div class="form-group">
-				<label for="mac_addr">MAC Address <small>(16 characters)</small></label>
-				<input type="text" class="form-control" name="mac_addr" placeholder="MAC Address" minlength="16" maxlength="16" title="16 Characters" required />
-			</div>
-			<div class="form-group">
-				<label for="loc_id">Location Name</label>
-				<select class="form-control" name="loc_id">
-				<?php
-				$loc_names = $conn->query("SELECT * FROM `locations` ORDER BY `name`;");
+<div class="row well">
+	<form action="./?p=stations" method="post" autocomplete="off">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="mac_addr">MAC Address <small>(16 characters)</small></label>
+					<input type="text" class="form-control" name="mac_addr" placeholder="MAC Address" minlength="16" maxlength="16" title="16 Characters" required />
+				</div>
+				<div class="form-group">
+					<label for="loc_id">Location Name</label>
+					<select class="form-control" name="loc_id">
+					<?php
+					$loc_names = $conn->query("SELECT * FROM `locations` ORDER BY `name`;");
 
-				$loc_names = $loc_names->fetchAll(PDO::FETCH_ASSOC);
+					$loc_names = $loc_names->fetchAll(PDO::FETCH_ASSOC);
 
-				foreach ($loc_names as $value) {
-					echo '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
-				}
-				?>
-					
-				</select>
+					foreach ($loc_names as $value) {
+						echo '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+					}
+					?>
+						
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="latlong">Latitude, Longitude <small>(comma separated, no spaces)</small></label>
+					<input type="text" class="form-control" name="latlong" placeholder="Latitude, Longitude" minlength="3" maxlength="36" pattern="-?\d{1,3}\.\d+[,]-?\d{1,3}\.\d+" title="Comma separated, No spaces" required />
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="latlong">Latitude, Longitude <small>(comma separated, no spaces)</small></label>
-				<input type="text" class="form-control" name="latlong" placeholder="Latitude, Longitude" minlength="3" maxlength="36" pattern="-?\d{1,3}\.\d+[,]-?\d{1,3}\.\d+" title="Comma separated, No spaces" required />
+			<div class="col-md-6">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="temperature" checked /> Temperature
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="humidity" checked /> Humidity
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="soilMoist" checked /> Soil Moisture
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="phMeter" checked /> pH Meter
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="wetLeaf" checked /> Wet Leaf
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="windSpeed" checked /> Wind Speed
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="windDir" checked /> Wind Direction
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="rainMeter" checked /> Rain Meter
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="solarRad" checked /> Solar Radiation
+					</label>
+				</div>
+				<button type="submit" class="btn btn-primary">Add a New Station</button>
 			</div>
 		</div>
-		<div class="col-md-6">
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="temperature" checked /> Temperature
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="humidity" checked /> Humidity
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="soilMoist" checked /> Soil Moisture
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="phMeter" checked /> pH Meter
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="wetLeaf" checked /> Wet Leaf
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="windSpeed" checked /> Wind Speed
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="windDir" checked /> Wind Direction
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="rainMeter" checked /> Rain Meter
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="solarRad" checked /> Solar Radiation
-				</label>
-			</div>
-			<button type="submit" class="btn btn-primary">Add a New Station</button>
-		</div>
-	</div>
-</form>
+	</form>
+</div>
 
 <br />
 <br />

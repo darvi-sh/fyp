@@ -14,11 +14,10 @@ if (!empty($_POST)) {
 	$sth = $conn->prepare("INSERT INTO `users` (
 							`name`,
 							`email`,
-							`username`,
 							`password`,
 							`admin`)
-							VALUES (?,?,?,?,?);");
-	$data = array($full_name, $email_addr, $username, $password, $admin);
+							VALUES (?,?,?,?);");
+	$data = array($full_name, $email_addr, $password, $admin);
 	if ($sth->execute($data)) {
 		echo '
 		<div class="alert alert-success" role="alert">
@@ -36,42 +35,41 @@ if (!empty($_POST)) {
 }
 ?>
 
-<form action="./?p=users" method="post" autocomplete="off">
-	<h2>Add a New User</h2>
-	<hr />
-	<div class="row">
-		<div class="col-md-4 col-sm-4">
-			<div class="form-group">
-				<label for="full_name">Full Name</label>
-				<input type="text" class="form-control" name="full_name" placeholder="Full Name" minlength="2" maxlength="64" title="A name under 2 characters? We don't like it." required />
+<div class="row well">
+	<form action="./?p=users" method="post" autocomplete="off">
+		<h2>Add a New User</h2>
+		<hr />
+		<div class="row">
+			<div class="col-md-4 col-sm-4">
+				<div class="form-group">
+					<label for="full_name">Full Name</label>
+					<input type="text" class="form-control" name="full_name" placeholder="Full Name" minlength="2" maxlength="64" title="A name under 2 characters? We don't like it." required />
+				</div>
+				<div class="form-group">
+					<label for="email_addr">Email</label>
+					<input type="email" class="form-control" name="email_addr" placeholder="Email Address" maxlength="64" title="Ehem.. an email, you know?" required />
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="email_addr">Email</label>
-				<input type="email" class="form-control" name="email_addr" placeholder="Email Address" minlength="5" maxlength="64" title="Ehem.. an email, you know?" required />
+			<div class="col-md-4 col-sm-4">
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" class="form-control" name="password" placeholder="Password" minlength="6" title="Minimum 6 Characters." required />
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4">
+				<div class="form-group">
+					<label for="admin">Type</label>
+					<select class="form-control" name="admin">
+						<option value="0" selected>Regular</option>
+						<option value="1">Admin</option>
+					</select>
+				</div><br />
+				<button type="submit" class="btn btn-primary">Add a New User</button>
 			</div>
 		</div>
-		<div class="col-md-4 col-sm-4">
-			<div class="form-group">
-				<label for="username">Username</label>
-				<input type="text" class="form-control" name="username" placeholder="Username" minlength="4" maxlength="32" pattern="^[A-Za-z0-9_]{4,32}$" title="Alphanumeric, Underscore is allowed, Minimum 4 to Maximum 32 Characters." required />
-			</div>
-			<div class="form-group">
-				<label for="password">Password</label>
-				<input type="password" class="form-control" name="password" placeholder="Password" minlength="4" maxlength="32" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" title="Alphanumeric, Special Chararacters, Minimum 8 to Maximum 32 Characters." required />
-			</div>
-		</div>
-		<div class="col-md-4 col-sm-4">
-			<div class="form-group">
-				<label for="admin">Type</label>
-				<select class="form-control" name="admin">
-					<option value="0" selected>Regular</option>
-					<option value="1">Admin</option>
-				</select>
-			</div><br />
-			<button type="submit" class="btn btn-primary">Add a New User</button>
-		</div>
-	</div>
-</form>
+	</form>
+</div>
+
 
 <br />
 <br />
@@ -79,7 +77,7 @@ if (!empty($_POST)) {
 <hr />
 
 <?php
-$query = $conn->query("SELECT `id`, `created_on`, `name`, `email`, `username`, `admin` FROM `users`;");
+$query = $conn->query("SELECT `id`, `created_on`, `name`, `email`, `admin` FROM `users`;");
 
 
 $row = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -90,14 +88,13 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 		<tr>
 			<th>Full Name</th>
 			<th>Email Address</th>
-			<th>Username</th>
 			<th>Created On</th>
 			<th>Admin</th>
 		</tr>
 	</thead>
 	<tfoot>
 		<tr>
-			<th colspan="5" class="ts-pager form-horizontal">
+			<th colspan="4" class="ts-pager form-horizontal">
 				<button type="button" class="btn first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i></button>
 				<button type="button" class="btn prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i></button>
 				<span class="pagedisplay"></span> <!-- this can be any element, including an input -->
@@ -119,7 +116,6 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 		<tr<?php echo ($value['id'] == $justInserted)?' class="success"':''?>>
 			<td><a href="?p=user&id=<?php echo $value['id'] ?>"><?php echo $value['name'] ?></a></td>
 			<td><?php echo $value['email'] ?></td>
-			<td><?php echo $value['username'] ?></td>
 			<td><?php echo $value['created_on'] ?></td>
 			<td><?php echo (empty($value['admin'])?'Regular':'Admin') ?></td>
 		</tr>

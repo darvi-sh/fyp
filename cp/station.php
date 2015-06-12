@@ -65,84 +65,86 @@ if ($row) {
 
 ?>
 
-<form action="./?<?php echo $_SERVER['QUERY_STRING'] ?>" method="post" autocomplete="off">
-	<div class="row">
-		<div class="col-md-6">
-			<div class="form-group">
-				<label for="mac_addr">MAC Address <small>(16 characters)</small></label>
-				<input type="text" class="form-control" name="mac_addr" placeholder="MAC Address" minlength="16" maxlength="16" title="16 Characters" value="<?php echo $row[0]['mac'] ?>" required />
-			</div>
-			<div class="form-group">
-				<label for="loc_id">Location Name</label>
-				<select class="form-control" name="loc_id">
-				<?php
-				$loc_names = $conn->query("SELECT * FROM `locations` ORDER BY `name`;");
+<div class="row well">
+	<form action="./?<?php echo $_SERVER['QUERY_STRING'] ?>" method="post" autocomplete="off">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="mac_addr">MAC Address <small>(16 characters)</small></label>
+					<input type="text" class="form-control" name="mac_addr" placeholder="MAC Address" minlength="16" maxlength="16" title="16 Characters" value="<?php echo $row[0]['mac'] ?>" required />
+				</div>
+				<div class="form-group">
+					<label for="loc_id">Location Name</label>
+					<select class="form-control" name="loc_id">
+					<?php
+					$loc_names = $conn->query("SELECT * FROM `locations` ORDER BY `name`;");
 
-				$loc_names = $loc_names->fetchAll(PDO::FETCH_ASSOC);
+					$loc_names = $loc_names->fetchAll(PDO::FETCH_ASSOC);
 
-				foreach ($loc_names as $value) {
-					echo '<option value="' . $value['id'] . '"' . ($row[0]['location_id']==$value['id']?' selected':'') . '>' . $value['name'] . '</option>';
-				}
-				?>
-					
-				</select>
+					foreach ($loc_names as $value) {
+						echo '<option value="' . $value['id'] . '"' . ($row[0]['location_id']==$value['id']?' selected':'') . '>' . $value['name'] . '</option>';
+					}
+					?>
+						
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="latlong">Latitude, Longitude <small>(comma separated, no spaces)</small></label>
+					<input type="text" class="form-control" name="latlong" placeholder="Latitude, Longitude" minlength="3" maxlength="36" pattern="-?\d{1,3}\.\d+[,]-?\d{1,3}\.\d+" title="Comma separated, No spaces" value="<?php echo $row[0]['latlong'] ?>" required />
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="latlong">Latitude, Longitude <small>(comma separated, no spaces)</small></label>
-				<input type="text" class="form-control" name="latlong" placeholder="Latitude, Longitude" minlength="3" maxlength="36" pattern="-?\d{1,3}\.\d+[,]-?\d{1,3}\.\d+" title="Comma separated, No spaces" value="<?php echo $row[0]['latlong'] ?>" required />
+			<div class="col-md-6">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="temperature" <?php echo $row[0]['temperature']?'checked':'' ?> /> Temperature
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="humidity" <?php echo $row[0]['humidity']?'checked':'' ?> /> Humidity
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="soilMoist" <?php echo $row[0]['soilMoist']?'checked':'' ?> /> Soil Moisture
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="phMeter" <?php echo $row[0]['phMeter']?'checked':'' ?> /> pH Meter
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="wetLeaf" <?php echo $row[0]['wetLeaf']?'checked':'' ?> /> Wet Leaf
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="windSpeed" <?php echo $row[0]['windSpeed']?'checked':'' ?> /> Wind Speed
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="windDir" <?php echo $row[0]['windDir']?'checked':'' ?> /> Wind Direction
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="rainMeter" <?php echo $row[0]['rainMeter']?'checked':'' ?> /> Rain Meter
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="solarRad" <?php echo $row[0]['solarRad']?'checked':'' ?> /> Solar Radiation
+					</label>
+				</div>
+				<button type="submit" class="btn btn-primary pull-left">Update</button>
+				<a id="remover" data-warn="This action cannot be undone and will remove this station permanently.<br />The data under this station will be inaccessible via this panel." href="./?p=station&remove=<?php echo htmlentities(trim($_GET['id'])) ?>"><span class="label label-default pull-right">remove this station</span></a>
 			</div>
 		</div>
-		<div class="col-md-6">
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="temperature" <?php echo $row[0]['temperature']?'checked':'' ?> /> Temperature
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="humidity" <?php echo $row[0]['humidity']?'checked':'' ?> /> Humidity
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="soilMoist" <?php echo $row[0]['soilMoist']?'checked':'' ?> /> Soil Moisture
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="phMeter" <?php echo $row[0]['phMeter']?'checked':'' ?> /> pH Meter
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="wetLeaf" <?php echo $row[0]['wetLeaf']?'checked':'' ?> /> Wet Leaf
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="windSpeed" <?php echo $row[0]['windSpeed']?'checked':'' ?> /> Wind Speed
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="windDir" <?php echo $row[0]['windDir']?'checked':'' ?> /> Wind Direction
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="rainMeter" <?php echo $row[0]['rainMeter']?'checked':'' ?> /> Rain Meter
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="solarRad" <?php echo $row[0]['solarRad']?'checked':'' ?> /> Solar Radiation
-				</label>
-			</div>
-			<button type="submit" class="btn btn-primary pull-left">Update</button>
-			<a id="removeStation" href="./?p=station&remove=<?php echo htmlentities(trim($_GET['id'])) ?>"><span class="label label-default pull-right">Remove this station</span></a>
-		</div>
-	</div>
-</form>
+	</form>
+</div>
 
 <br />
 <hr />
@@ -154,7 +156,7 @@ $query = $conn->query("SELECT * FROM `station_data` WHERE `station_id` = " . $ro
 $row = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<table class="table table-bordered table-responsive table-hover" id="stationData">
+<table class="table table-bordered table-responsive table-hover table-striped" id="stationData">
 	<thead>
 		<tr>
 			<th>Date & Time</th>
