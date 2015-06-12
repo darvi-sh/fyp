@@ -2,7 +2,7 @@
 session_start();
 session_regenerate_id();
 
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']) || !isset($_SESSION['admin']) || $_SESSION['admin'] != 1) {
 	header('location: ../?p=auth'); die();
 }
 
@@ -25,6 +25,12 @@ try {
 }
 
 
+
+if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
+	$query = $conn->prepare("SELECT `name` FROM `users` WHERE `id` = ? LIMIT 1;");
+	$query->execute(array($_SESSION['user']));
+	$user = $query->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 
 

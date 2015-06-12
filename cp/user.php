@@ -40,8 +40,6 @@ if (!empty($_POST)) {
 			<strong>Success!</strong> The user has been updated.
 		</div>';
 
-		$justInserted = $conn->lastInsertId();
-
 	} catch(PDOException $ex) {
 		echo '
 		<div class="alert alert-danger" role="alert">

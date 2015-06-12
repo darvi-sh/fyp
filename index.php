@@ -26,6 +26,12 @@ try {
 }
 
 
+
+if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
+	$query = $conn->prepare("SELECT `name` FROM `users` WHERE `id` = ? LIMIT 1;");
+	$query->execute(array($_SESSION['user']));
+	$user = $query->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 
 
@@ -66,6 +72,7 @@ try {
 
 	<script src="./js/jquery-2.1.4.min.js"></script>
 	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/bootbox.min.js"></script>
 	<script src="./js/front.js"></script>
 </body>
 </html>

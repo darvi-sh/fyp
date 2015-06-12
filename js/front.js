@@ -21,4 +21,15 @@ $(document).ready(function(){
 			$('#registration_form #pwd_match_err').fadeIn();
 		}
 	});
+	$("form").on('click', '#remover', function(e) {
+		e.preventDefault();
+		var href = $(this).attr('href');
+		var warn = '<br /><br />' + $(this).data('warn');
+
+		bootbox.confirm("<strong>Are you sure?</strong>" + warn, function(result) {
+			if (result) {
+				location = href;
+			}
+		});
+	});
 });

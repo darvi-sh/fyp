@@ -16,9 +16,11 @@
 			<ul class="nav navbar-nav navbar-right">
 				<?php if (isset($_SESSION['user'])) { ?>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sonny Darvishzadeh <span class="caret"></span></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?php echo $user[0]['name'] ?> <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
+						<?php if (isset($_SESSION['admin']) && $_SESSION['admin'] == 1) { ?>
 						<li><a href="./cp/"><span class="glyphicon glyphicon-cog"></span> Control Panel</a></li>
+						<?php } ?>
 						<li><a href="?p=profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
 						<li><a href="?p=logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
 					</ul>

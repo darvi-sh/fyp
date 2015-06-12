@@ -1,12 +1,12 @@
 <div class="row">
-	<div class="col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1">
 <?php
 
 if (!empty($_POST)) {
+	$subsc = NULL;
 	foreach ($_POST as $key => $value) {
-		if ($key != 'password')
+		if ($key != 'pwd')
 			$$key = htmlentities(trim($value));
-		if ($key == 'password')
+		if ($key == 'pwd')
 			$$key = $value;
 	}
 
@@ -14,7 +14,7 @@ if (!empty($_POST)) {
 		$data = array(':email'	=> $email_addr,
 									':pwd'		=> $pwd);
 		$query = $conn->prepare("SELECT `id`, `admin` FROM `users` WHERE `email` = :email AND `password` = MD5(:pwd) LIMIT 1;");
-		$query->execute(array(':email' => $email_addr, ':pwd' => $password));
+		$query->execute(array(':email' => $email_addr, ':pwd' => $pwd));
 		$row = $query->fetchAll(PDO::FETCH_ASSOC);
 
 		if ($row) {
@@ -22,9 +22,11 @@ if (!empty($_POST)) {
 			$_SESSION['admin']	= $row[0]['admin'];
 			header('location: ./?p=profile'); die();
 		} else {
-			echo '<div class="alert alert-danger" role="alert">
-							<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
-							<strong>Na-ah!</strong> Not correct, try again.
+			echo '<div class="col-md-4 col-md-offset-6 col-sm-4 col-sm-offset-6">
+							<div class="alert alert-danger" role="alert">
+								<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+								<strong>Na-ah!</strong> Not correct, try again.
+							</div>
 						</div>';
 		}
 	}
@@ -36,28 +38,35 @@ if (!empty($_POST)) {
 										':pwd'		=> $password,
 										':subsc'	=> $subsc);
 
-			$query = $conn->prepare("INSERT INTO `users` (`name`,`email`,`password`,`subsc`)
-																						VALUES (:name, :email, :password, :subsc);");
+			$query = $conn->prepare("INSERT INTO `users` (`name`,`email`,`password`,`subscription`) VALUES (:name,:email,MD5(:pwd),:subsc);");
 
 			if ($query->execute($data)) {
-				header('location: ./?p=auth');
+				echo '<div class="col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1">
+								<div class="alert alert-success" role="alert">
+									<span class="glyphicon glyphicon-success" aria-hidden="true"></span>
+									<strong>Well done!</strong> You can login now.
+								</div>
+							</div>';
 			} else {
-			echo '<div class="alert alert-danger" role="alert">
-							<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
-							<strong>Duplicate Email Address!</strong><br /> - This account already exists.<br /> - ' .
-							$email_addr .
-						'</div>';
+				echo '<div class="col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1">
+								<div class="alert alert-danger" role="alert">
+									<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+									<strong>An error has occured.</strong><br /> - This account already exists.<br /> - ' .
+									$email_addr .
+								'</div>
+							</div>';
 			}
 		} else {
-			echo '<div class="alert alert-danger" role="alert">
-							<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
-							<strong>Password Mismatch!</strong><br /> - Make sure passwords are matched.
+			echo '<div class="col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1">
+							<div class="alert alert-danger" role="alert">
+								<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+								<strong>Password Mismatch!</strong><br /> - Make sure passwords are matched.
+							</div>
 						</div>';
 		}
 	}
 }
 ?>
-	</div>
 </div>
 <div class="row">
 	<div class="col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1 well">
