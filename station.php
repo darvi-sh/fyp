@@ -44,6 +44,20 @@
 	<h2>User Comments</h2>
 </div>
 
+<?php
+if (isset($_SESSION['user'])) {
+?>
+<div class="row">
+	<form method="post">
+		<div class="form-group">
+			<textarea class="form-control" name="comment" placeholder="Comment.." cols="100" rows="5"></textarea>
+		</div>
+		<button type="submit" class="btn btn-primary pull-right">Send</button>
+	</form>
+</div>
+<?php
+}
+?>
 
 
 <script type="text/javascript" src="./js/dygraph-combined.js"></script>
@@ -57,7 +71,8 @@
 			showRoller: true,
 			labelsKMB: true,
 			rollPeriod: 7,
-			visibility: [true, false, true, false, false, false, false, false]
+			visibility: [true, false, true, false, false, false, false, false],
+			showRangeSelector: true
 		}
 	);
 
