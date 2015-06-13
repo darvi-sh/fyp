@@ -45,6 +45,13 @@ if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
 	<link href="./css/bootstrap.united.min.css" rel="stylesheet" />
 	<link href="./css/jquery.tablesorter.pager.css" rel="stylesheet" />
 	<link href="./css/extras.css" rel="stylesheet" />
+	<script src="./js/jquery-2.1.4.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/bootbox.min.js"></script>
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/highcharts-more.js"></script>
+	<script src="http://code.highcharts.com/modules/data.js"></script>
+	<script src="http://code.highcharts.com/modules/exporting.js"></script>
 </head>
 <body>
 
@@ -70,9 +77,7 @@ if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
 		</div>
 	</div>
 
-	<script src="./js/jquery-2.1.4.min.js"></script>
-	<script src="./js/bootstrap.min.js"></script>
-	<script src="./js/bootbox.min.js"></script>
+
 	<script src="./js/front.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(function(){
 	var query = location.search.substring(1);
 	if (query.trim()) {
 		var vars = query.split("&");
@@ -31,5 +31,73 @@ $(document).ready(function(){
 				location = href;
 			}
 		});
+	});
+
+
+
+	// Parse the data from an inline table using the Highcharts Data plugin
+	$('#wind').highcharts({
+			data: {
+					table: 'freq',
+					startRow: 1,
+					endRow: 9,
+					endColumn: 7
+			},
+
+			chart: {
+					polar: true,
+					type: 'column'
+			},
+
+			title: {
+					text: 'Wind Direction and Wind Speed'
+			},
+
+			subtitle: {
+					text: 'Averaged Data of all time'
+			},
+
+			pane: {
+					size: '90%'
+			},
+
+			legend: {
+					align: 'right',
+					verticalAlign: 'top',
+					y: 100,
+					layout: 'vertical'
+			},
+
+			xAxis: {
+					tickmarkPlacement: 'on'
+			},
+
+			yAxis: {
+					min: 0,
+					endOnTick: false,
+					showLastLabel: true,
+					title: {
+							text: 'Frequency (%)'
+					},
+					labels: {
+							formatter: function () {
+									return this.value + '%';
+							}
+					},
+					reversedStacks: false
+			},
+
+			tooltip: {
+					valueSuffix: '%'
+			},
+
+			plotOptions: {
+					series: {
+							stacking: 'normal',
+							shadow: false,
+							groupPadding: 0,
+							pointPlacement: 'on'
+					}
+			}
 	});
 });
