@@ -1,3 +1,13 @@
+<?php
+if (isset($_SESSION['user']) && isset($_POST['comment'])) {
+	$data = array(':user_id'	=> $_SESSION['user'],
+				  ':feedback'	=> $_POST['feedback']);
+	$query = $conn->prepare("INSERT INTO `feedbacks` (`user_id`,`feedback`) VALUES (:user_id, :feedback);");
+
+	if ($query->execute($data)) {
+	}
+}
+?>
 <div class="row">
 	<h2>Data for station #<?php echo $_GET['id'] ?></h2>
 	<div class="col-md-10 col-sm-10">
@@ -162,6 +172,9 @@
 	</table>
 </div>
 
+<?php
+if (isset($_SESSION['user'])) {
+?>
 <br />
 <hr />
 
@@ -184,6 +197,10 @@
 		}
 		?>
 </div>
+
+<?php
+}
+?>
 
 
 <script type="text/javascript" src="./js/dygraph-combined.js"></script>

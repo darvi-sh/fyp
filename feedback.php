@@ -1,6 +1,6 @@
 <div class="row">
 	<?php
-	if (isset($_POST['feedback']) && !empty($_POST['feedback'])) {
+	if (isset($_SESSION['user']) && isset($_POST['feedback']) && !empty($_POST['feedback'])) {
 		$data = array(':user_id'	=> $_SESSION['user'],
 					  ':feedback'	=> $_POST['feedback']);
 		$query = $conn->prepare("INSERT INTO `feedbacks` (`user_id`,`feedback`) VALUES (:user_id, :feedback);");

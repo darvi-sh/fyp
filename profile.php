@@ -1,3 +1,8 @@
+<?php
+if (!isset($_SESSION['user'])) {
+	header('location: ../?p=auth'); die();
+}
+?>
 <div class="row">
 	<div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3">
 		<?php
