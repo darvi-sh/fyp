@@ -22,6 +22,7 @@
 						<li><a href="./cp/"><span class="glyphicon glyphicon-cog"></span> Control Panel</a></li>
 						<?php } ?>
 						<li><a href="?p=profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+						<li><a href="?p=feedback"><span class="glyphicon glyphicon-user"></span> Feedback</a></li>
 						<li><a href="?p=logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
 					</ul>
 				</li>
