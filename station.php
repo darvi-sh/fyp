@@ -170,7 +170,7 @@ if (isset($_SESSION['user'])) {
 
 <div class="row">
 	<?php
-	if (isset($_POST['comment'] && !empty($_POST['comment'])) {
+	if (isset($_POST['comment']) && !empty($_POST['comment'])) {
 		$data = array(':user_id'	=> $_SESSION['user'],
 					  ':station_id'	=> $_GET['id'],
 					  ':comment'	=> $_POST['comment']);
@@ -193,12 +193,14 @@ if (isset($_SESSION['user'])) {
 		<h2>User Comments</h2>
 
 		<?php
+		// echo user comments yo
+		
 		if (isset($_SESSION['user'])) {
 		?>
 		<div class="row">
 			<form method="post">
 				<div class="form-group">
-					<textarea class="form-control" name="comment" placeholder="Comment.." cols="100" rows="5"></textarea>
+					<textarea class="form-control" name="comment" placeholder="Comment.." minlength="10" required rows="5"></textarea>
 				</div>
 				<button type="submit" class="btn btn-primary pull-right">Send</button>
 			</form>
