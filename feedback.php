@@ -16,9 +16,8 @@
 			echo '<div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3">
 							<div class="alert alert-danger" role="alert">
 								<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
-								<strong>Achoo!</strong> Something\'s wrong with the system :/' .
-								$email_addr .
-							'</div>
+								<strong>Achoo!</strong> Something\'s wrong with the feedback system :/
+							</div>
 						</div>';
 		}
 	}

@@ -1,13 +1,3 @@
-<?php
-if (isset($_SESSION['user']) && isset($_POST['comment'])) {
-	$data = array(':user_id'	=> $_SESSION['user'],
-				  ':feedback'	=> $_POST['feedback']);
-	$query = $conn->prepare("INSERT INTO `feedbacks` (`user_id`,`feedback`) VALUES (:user_id, :feedback);");
-
-	if ($query->execute($data)) {
-	}
-}
-?>
 <div class="row">
 	<h2>Data for station #<?php echo $_GET['id'] ?></h2>
 	<div class="col-md-10 col-sm-10">
@@ -179,6 +169,26 @@ if (isset($_SESSION['user'])) {
 <hr />
 
 <div class="row">
+	<?php
+	if (isset($_POST['comment'] && !empty($_POST['comment'])) {
+		$data = array(':user_id'	=> $_SESSION['user'],
+					  ':station_id'	=> $_GET['id'],
+					  ':comment'	=> $_POST['comment']);
+		$query = $conn->prepare("INSERT INTO `comments`
+								(`user_id`,`station_id`,`comment`) VALUES
+								(:user_id, :station_id, :comment);");
+
+		if (!$query->execute($data)) {
+			echo '
+				<div class="col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1">
+					<div class="alert alert-danger" role="alert">
+						<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+						<strong>Achoo!</strong> Something\'s wrong with the commenting system :/
+					</div>
+				</div>';
+		}
+	}
+	?>
 	<div class="col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1">
 		<h2>User Comments</h2>
 
