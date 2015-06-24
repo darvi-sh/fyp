@@ -1,5 +1,10 @@
+<?php
+if (!isset($_SESSION['user'])) {
+	header('location: ../?p=auth'); die();
+}
+?>
 <div class="row">
-	<div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
+	<div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3">
 		<?php
 		if (isset($_GET['remove'])) {
 			$sth = $conn->prepare("DELETE FROM `users` WHERE `id` = ?");
@@ -71,7 +76,7 @@ if ($row) {
 ?>
 
 <div class="row">
-	<div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 well">
+	<div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 well">
 		<form action="./?<?php echo $_SERVER['QUERY_STRING'] ?>" method="post" autocomplete="off">
 			<h2>Edit Profile</h2>
 			<hr />
