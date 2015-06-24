@@ -1,1 +1,1 @@
-<?phpheader('location: ./?p=stations')
+<?phpheader('location: ./?p=stations');
