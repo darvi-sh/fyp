@@ -16,12 +16,9 @@
 	</div>
 </div>
 
-<hr />
-
 <?php
 
 $query = $conn->query("SELECT `id`, `latlong` FROM `stations`;");
-
 
 $row = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -88,9 +85,10 @@ var visibleMarkers = [];
 
 	function refreshData (visibleMarkers) {
 		$.post( "gauges.php", { 'stations[]': visibleMarkers } ).done(function( response ) {
+			// console.log(response);
 			data = google.visualization.arrayToDataTable(JSON.parse(response));
 			chart.draw(data, options);
-		});		
+		});
 	}
 
 
@@ -98,6 +96,7 @@ var visibleMarkers = [];
 	map.fitBounds(bounds);
 
 	google.maps.event.addListener(map,'idle', function (){
+		var oldMarkers = visibleMarkers.slice();
 		visibleMarkers = [];
 		$('#listOfItems').empty().html('<ul></ul>');
 		for (var i = 0; i < allMarkers.length; i++) {
@@ -105,7 +104,12 @@ var visibleMarkers = [];
 				visibleMarkers.push(allMarkers[i]['stationId']);
 			}
 		}
-		refreshData(visibleMarkers);
+		// refresh only if new visible markers, performance bruh
+		console.log('oldMarkers: ' + oldMarkers + "\n");
+		console.log('visibleMarkers: ' + visibleMarkers + "\n");
+		if (JSON.stringify(oldMarkers) != JSON.stringify(visibleMarkers)) {
+			refreshData(visibleMarkers);
+		}
 	});
 
 	google.maps.event.addDomListener(window, "resize", function() {

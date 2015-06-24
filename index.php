@@ -18,7 +18,6 @@ try {
 	$conn = new PDO('mysql:host=127.0.0.1;dbname=fyp', 'root', '');
 } catch (PDOException $Exception) {
 	// throw new MyDatabaseException( $Exception->getMessage( ) , $Exception->getCode( ) );
-	// echo "DB connection error eh :/";
 }
 
 if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
