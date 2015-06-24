@@ -1,5 +1,6 @@
 <?php
 //die(print_r($_POST));
+//SELECT * FROM `station_data` WHERE (`station_id`, `datetime`) IN (SELECT`station_id`, MAX(`datetime`) AS `datetime` FROM `station_data` WHERE `station_id` IN (1,2) GROUP BY `station_id`) ORDER BY `station_id`
 ?>
 [
 	["Label", "Value"],
