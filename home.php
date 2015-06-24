@@ -1,27 +1,22 @@
 <script src="http://maps.googleapis.com/maps/api/js"></script>
 
-<style>
-	#map-wrapper {
-		height: 400px;
-}
+<div class="row">
+	<div class="col-md-0 col-sm-8">
+		<div id="map-wrapper">
+				<div id="map-canvas" class="mapping"></div>
+		</div>
+	</div>
 
-#map-canvas {
-		width: 100%;
-		height: 100%;
-}
-</style>
-<div id="map-wrapper">
-		<div id="map-canvas" class="mapping"></div>
-</div>
 
-<div id="listOfItems">
+	<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['gauge']}]}"></script>
+
 	
+	<div class="col-md-4 col-sm-4">
+		<div id="gauges"></div>
+	</div>
 </div>
-
 
 <hr />
-
-<div id="temperature" style="min-width: 310px; max-width: 400px; height: 300px; margin: 0 auto"></div>
 
 <?php
 
@@ -80,6 +75,26 @@ var visibleMarkers = [];
 		})(marker, i));
 	}
 
+
+
+	var chart = new google.visualization.Gauge(document.getElementById('gauges'));
+
+	var options = {
+		width: 250, height: 520,
+		redFrom: 90, redTo: 100,
+		yellowFrom:75, yellowTo: 90,
+		minorTicks: 5
+	};
+
+	function refreshData (visibleMarkers) {
+		$.post( "gauges.php", { 'stations[]': visibleMarkers } ).done(function( response ) {
+			data = google.visualization.arrayToDataTable(JSON.parse(response));
+			chart.draw(data, options);
+		});		
+	}
+
+
+
 	map.fitBounds(bounds);
 
 	google.maps.event.addListener(map,'idle', function (){
@@ -88,9 +103,9 @@ var visibleMarkers = [];
 		for (var i = 0; i < allMarkers.length; i++) {
 			if (map.getBounds().contains(allMarkers[i].getPosition())) {
 				visibleMarkers.push(allMarkers[i]['stationId']);
-				$('#listOfItems ul').append('<li><a target="_blank" href="./?p=station&id=' + allMarkers[i]['stationId'] + '"> Station #' + allMarkers[i]['stationId'] + '</a></li>');
 			}
 		}
+		refreshData(visibleMarkers);
 	});
 
 	google.maps.event.addDomListener(window, "resize", function() {
