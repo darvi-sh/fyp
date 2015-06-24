@@ -60,7 +60,7 @@ if ($row) {
 
 <div class="row well">
 	<form action="./?<?php echo $_SERVER['QUERY_STRING'] ?>" method="post" autocomplete="off">
-		<h2>Edit User</h2>
+		<h2>Update User</h2>
 		<hr />
 		<div class="row">
 			<div class="col-md-4 col-sm-4">

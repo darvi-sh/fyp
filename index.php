@@ -1,6 +1,6 @@
 <?php
 session_start();
-session_regenerate_id();
+session_regenerate_id(true);
 
 if (isset($_GET['p'])) {
 	if ($_GET['p'] == 'auth') {
@@ -14,18 +14,12 @@ if (isset($_GET['p'])) {
 	$p = 'home.php';
 }
 
-// Check for valid user
-
-
 try {
 	$conn = new PDO('mysql:host=127.0.0.1;dbname=fyp', 'root', '');
 } catch (PDOException $Exception) {
-	// Error
 	// throw new MyDatabaseException( $Exception->getMessage( ) , $Exception->getCode( ) );
 	// echo "DB connection error eh :/";
 }
-
-
 
 if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
 	$query = $conn->prepare("SELECT `name` FROM `users` WHERE `id` = ? LIMIT 1;");
@@ -33,7 +27,6 @@ if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
 	$user = $query->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

@@ -55,6 +55,8 @@ if (!empty($_POST)) {
 
 <div class="row well">
 	<form action="./?p=stations" method="post" autocomplete="off">
+		<h2>Add a New Station</h2>
+		<br />
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">

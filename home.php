@@ -18,6 +18,11 @@
 	
 </div>
 
+
+<hr />
+
+<div id="temperature" style="min-width: 310px; max-width: 400px; height: 300px; margin: 0 auto"></div>
+
 <?php
 
 $query = $conn->query("SELECT `id`, `latlong` FROM `stations`;");
@@ -86,6 +91,12 @@ var visibleMarkers = [];
 				$('#listOfItems ul').append('<li><a target="_blank" href="./?p=station&id=' + allMarkers[i]['stationId'] + '"> Station #' + allMarkers[i]['stationId'] + '</a></li>');
 			}
 		}
+	});
+
+	google.maps.event.addDomListener(window, "resize", function() {
+		var center = map.getCenter();
+		google.maps.event.trigger(map, "resize");
+		map.setCenter(center); 
 	});
 })();
 </script>

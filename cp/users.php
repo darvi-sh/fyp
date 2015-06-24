@@ -38,7 +38,7 @@ if (!empty($_POST)) {
 <div class="row well">
 	<form action="./?p=users" method="post" autocomplete="off">
 		<h2>Add a New User</h2>
-		<hr />
+		<br />
 		<div class="row">
 			<div class="col-md-4 col-sm-4">
 				<div class="form-group">
@@ -89,7 +89,7 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 			<th>Full Name</th>
 			<th>Email Address</th>
 			<th>Created On</th>
-			<th>Admin</th>
+			<th>Type</th>
 		</tr>
 	</thead>
 	<tfoot>

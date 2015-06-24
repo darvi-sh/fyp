@@ -13,9 +13,6 @@ if (isset($_GET['p'])) {
 	$p = 'home.php';
 }
 
-// Check for valid user
-
-
 try {
 	$conn = new PDO('mysql:host=127.0.0.1;dbname=fyp', 'root', '');
 } catch (PDOException $Exception) {
@@ -24,15 +21,12 @@ try {
 	// echo "DB connection error eh :/";
 }
 
-
-
 if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
 	$query = $conn->prepare("SELECT `name` FROM `users` WHERE `id` = ? LIMIT 1;");
 	$query->execute(array($_SESSION['user']));
 	$user = $query->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

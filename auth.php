@@ -13,7 +13,8 @@ if (!empty($_POST)) {
 	if ($a == 'login') {
 		$data = array(':email'	=> $email_addr,
 									':pwd'		=> $pwd);
-		$query = $conn->prepare("SELECT `id`, `admin` FROM `users` WHERE `email` = :email AND `password` = MD5(:pwd) LIMIT 1;");
+		$query = $conn->prepare("SELECT `id`, `admin` FROM `users`
+															WHERE `email` = :email AND `password` = MD5(:pwd) LIMIT 1;");
 		$query->execute(array(':email' => $email_addr, ':pwd' => $pwd));
 		$row = $query->fetchAll(PDO::FETCH_ASSOC);
 

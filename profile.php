@@ -73,7 +73,7 @@ if ($row) {
 <div class="row">
 	<div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 well">
 		<form action="./?<?php echo $_SERVER['QUERY_STRING'] ?>" method="post" autocomplete="off">
-			<h2>Edit User</h2>
+			<h2>Edit Profile</h2>
 			<hr />
 					<div class="form-group">
 						<label for="full_name">Full Name</label>
