@@ -136,7 +136,7 @@ if ($row) {
 				</div>
 				<div class="checkbox">
 					<label>
-						<input type="checkbox" name="solarRad" <?php echo $row[0]['solarRad']?'checked':'' ?> /> Solar Radiation
+						<input type="checkbox" name="solarRad" <?php echo $row[0]['solarRad']?'checked':'' ?> /> Solar Radiation (UV)
 					</label>
 				</div>
 				<button type="submit" class="btn btn-primary pull-left">Update</button>
@@ -168,7 +168,7 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 			<th>Wind Speed</th>
 			<th>Wind Direction</th>
 			<th>Rain Meter</th>
-			<th>Solar Radiation</th>
+			<th>Solar Radiation (UV)</th>
 		</tr>
 	</thead>
 	<tfoot>

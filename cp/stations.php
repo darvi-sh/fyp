@@ -29,10 +29,10 @@ if (!empty($_POST)) {
 					((isset($temperature)	&&	$temperature == 'on')	? 1 : NULL),
 					((isset($humidity)		&&	$humidity == 'on')		? 1 : NULL),
 					((isset($soilMoist)		&&	$soilMoist == 'on')		? 1 : NULL),
-					((isset($phMeter)		&&	$phMeter == 'on')		? 1 : NULL),
-					((isset($wetLeaf)		&&	$wetLeaf == 'on')		? 1 : NULL),
+					((isset($phMeter)			&&	$phMeter == 'on')			? 1 : NULL),
+					((isset($wetLeaf)			&&	$wetLeaf == 'on')			? 1 : NULL),
 					((isset($windSpeed)		&&	$windSpeed == 'on')		? 1 : NULL),
-					((isset($windDir)		&&	$windDir == 'on')		? 1 : NULL),
+					((isset($windDir)			&&	$windDir == 'on')			? 1 : NULL),
 					((isset($rainMeter)		&&	$rainMeter == 'on')		? 1 : NULL),
 					((isset($solarRad)		&&	$solarRad == 'on')		? 1 : NULL)
 				);
@@ -126,7 +126,7 @@ if (!empty($_POST)) {
 				</div>
 				<div class="checkbox">
 					<label>
-						<input type="checkbox" name="solarRad" checked /> Solar Radiation
+						<input type="checkbox" name="solarRad" checked /> Solar Radiation (UV)
 					</label>
 				</div>
 				<button type="submit" class="btn btn-primary">Add a New Station</button>
@@ -154,7 +154,7 @@ $query = $conn->query("SELECT
 							IF (`stations`.`windSpeed`		= 1, 'Wind Speed, ',		''),
 							IF (`stations`.`windDir`		= 1, 'Wind Direction, ',	''),
 							IF (`stations`.`rainMeter`		= 1, 'Rain Meter, ',		''),
-							IF (`stations`.`solarRad`		= 1, 'Solar Radiation',		'')
+							IF (`stations`.`solarRad`		= 1, 'Solar Radiation (UV)',		'')
 						) AS `sensors`
 						FROM `stations`
 							INNER JOIN `locations`
