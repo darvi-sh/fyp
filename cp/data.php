@@ -24,30 +24,42 @@ if (!empty($_POST)) {
 			$params .= '- ' . $key . ": " . $value . "\n";
 		}
 	}
+	print_r($data);
 
 	$sth = $conn->prepare("INSERT INTO `station_data` (
-							`station_id`,
-							`temperature`,
-							`humidity`,
-							`soilMoist`,
-							`phMeter`,
-							`wetLeaf`,
-							`windSpeed`,
-							`windDir`,
-							`rainMeter`,
-							`solarRad`)
-							VALUES (?,?,?,?,?,?,?,?,?,?);");
+								`station_id`,
+								`temperature`,
+								`humidity`,
+								`soilMoist`,
+								`phMeter`,
+								`wetLeaf`,
+								`windSpeed`,
+								`windDir`,
+								`rainMeter`,
+								`solarRad`)
+								VALUES (
+								:station_id,
+								:temperature,
+								:humidity,
+								:soilMoist,
+								:phMeter,
+								:wetLeaf,
+								:windSpeed,
+								:windDir,
+								:rainMeter,
+								:solarRad);");
 	if ($sth->execute($data)) {
-		echo 'The data has been recorded.';
+		echo 'The data has been recorded.<br />';
 	}
 
 	if (!is_null($params)) {
 		// PHP mail(); You can easily get this going by using
 		// local mail server, Fakemail or Test Mail Server Tool
 		// foreach user
-		$msg = "A new out of range data has been recorded.\n\n" . $params;
-		$msg .="\nYou are receiving this email because you have subscribed for alerts.
-						\nYou can turn them off in your profile settings.\n";
+		$msg = "A new out of range data has been recorded.\n\n";
+		$msg .= 'Station ID #' . $data['station_id'] . "\n" . $params;
+		$msg .= "\nYou are receiving this email because you have subscribed for alerts."
+					. "\nYou can turn them off in your profile settings.\n";
 		$query = $conn->query("SELECT `email` FROM `users` WHERE `subscription` = 1;");
 		$row = $query->fetchAll(PDO::FETCH_ASSOC);
 
