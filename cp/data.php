@@ -24,7 +24,6 @@ if (!empty($_POST)) {
 			$params .= '- ' . $key . ": " . $value . "\n";
 		}
 	}
-	print_r($data);
 
 	$sth = $conn->prepare("INSERT INTO `station_data` (
 								`station_id`,
